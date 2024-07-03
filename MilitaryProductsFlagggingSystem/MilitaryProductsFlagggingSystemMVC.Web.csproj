@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MilitaryProductsFlaggingSystem.Common\MilitaryProductsFlaggingSystem.Common.csproj" />
+    <ProjectReference Include="..\MilitaryProductsFlaggingSystem.Repository\MilitaryProductsFlaggingSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\MilitaryProductsFlaggingSystem.Service\MilitaryProductsFlaggingSystem.Application.csproj" />
+  </ItemGroup>
+
+</Project>
