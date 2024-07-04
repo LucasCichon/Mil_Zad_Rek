@@ -1,6 +1,4 @@
-﻿using MilitaryConsoleApp.ErrorHandling;
-using MilitaryConsoleApp.Repositories;
-
+﻿using MilitaryConsoleApp.Repositories;
 
 namespace MilitaryConsoleApp.Services
 {

@@ -14,6 +14,10 @@ namespace MilitaryConsoleApp.Models
         public decimal BalanceAmount { get; private set; }
         public string BalanceCurrency { get; private set; }
 
+        public BillingEntry() 
+        {
+            //for Dapper
+        }
         private BillingEntry(
             string billingId,
             string orderId,

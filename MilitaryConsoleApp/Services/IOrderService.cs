@@ -1,6 +1,4 @@
-﻿using MilitaryConsoleApp.Models;
-
-namespace MilitaryConsoleApp.Services
+﻿namespace MilitaryConsoleApp.Services
 {
     public interface IOrderService
     {

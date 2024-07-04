@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using MilitaryConsoleApp.Configuration;
-using MilitaryConsoleApp.ErrorHandling;
-using MilitaryConsoleApp.Models;
-using RestSharp;
-using System.Diagnostics;
-using System.Net;
-using System.Text;
 
 namespace MilitaryConsoleApp.Services
 {

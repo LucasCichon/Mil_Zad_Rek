@@ -21,10 +21,10 @@ namespace MilitaryConsoleApp.Services
 
         public async Task<string> GetAccessTokenAsync()
         {
-            var authorizationCode = await getAuthorizationCode();
+            var authorizationCode = await GetAuthorizationCode();
 
-            var client = new RestClient("https://allegro.pl/auth/oauth/token");
-            var request = new RestRequest("https://allegro.pl/auth/oauth/token", Method.Post);
+            var client = new RestClient(_apiConfig.TokenEndpoint);
+            var request = new RestRequest(_apiConfig.TokenEndpoint, Method.Post);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.AddParameter("grant_type", "authorization_code");
             request.AddParameter("code", authorizationCode);
@@ -47,7 +47,7 @@ namespace MilitaryConsoleApp.Services
         }
 
 
-        private async Task<string> getAuthorizationCode()
+        private async Task<string> GetAuthorizationCode()
         {
             string authorizationUrl = $"https://allegro.pl/auth/oauth/authorize?response_type=code&client_id={_apiConfig.ClientId}&redirect_uri={_apiConfig.RedirectUri}";
             Process.Start(new ProcessStartInfo(authorizationUrl) { UseShellExecute = true });
@@ -55,7 +55,7 @@ namespace MilitaryConsoleApp.Services
 
             // Start a simple HTTP server to handle the callback
             HttpListener listener = new HttpListener();
-            listener.Prefixes.Add("http://localhost:5000/callback/");
+            listener.Prefixes.Add(_apiConfig.RedirectUri);
             listener.Start();
             Console.WriteLine("Listening for authorization code...");
 

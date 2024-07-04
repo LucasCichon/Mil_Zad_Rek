@@ -49,10 +49,22 @@ namespace MilitaryConsoleApp.ErrorHandling
             catch (HttpRequestException ex)
             {
                 Log.Error(ex, "Błąd HTTP podczas komunikacji z Allegro API");
+                if(ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    Log.Error("Upewnij się że posiadasz ważny Token");
+                }
             }
             catch (FileNotFoundException ex)
             {
                 Log.Error(ex, "Błąd IO podczas próby odczytania pliku");
+            }
+            catch(ArgumentException ex)
+            {
+                Log.Error(ex, "Wystąpił nieoczekiwany błąd");
+                if(ex.Source == "System.Data.SqlClient")
+                {
+                    Log.Error( "Upewnij się ze ConnectionString jest poprawny.");
+                }
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@ using Serilog;
 
 namespace MilitaryConsoleApp
 {
-    internal class Program
+    public class Program
     {
         public static IConfigurationRoot Configuration;
 
