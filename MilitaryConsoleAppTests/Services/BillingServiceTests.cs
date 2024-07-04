@@ -62,28 +62,8 @@ namespace MilitaryConsoleAppTests.Services
             // Assert
             _mockOfferService.Verify(x => x.GetOffersAsync(), Times.Once);
             _mockBillingRepository.Verify(x => x.GetBillingsAsync(It.IsAny<string>(), GetBillingType.ByOfferId), Times.Exactly(offers.Count));
-            _mockBillingRepository.Verify(x => x.SaveBillingEntriesAsync(It.IsAny<List<BillingEntry>>()), Times.AtLeastOnce);
+            _mockBillingRepository.Verify(x => x.SaveBillingEntryAsync(It.IsAny<BillingEntry>()), Times.AtLeastOnce);
             _mockAllegroClient.Verify(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>()), Times.AtLeastOnce);
-        }
-
-        [Test]
-        public async Task ProcessOffersBillingEntriesAsync_ShouldProcessOffersCorrectly_AndDontSaveBillings()
-        {
-            // Arrange
-            var offers = Any.Instance<List<Offer>>();// new List<Offer> { new Offer { Id = Any.Instance<int>()} };
-
-            _mockOfferService.Setup(x => x.GetOffersAsync()).ReturnsAsync(offers);
-            _mockBillingRepository.Setup(x => x.GetBillingsAsync(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Any.Instance<IEnumerable<BillingEntry>>());
-            _mockAllegroClient.Setup(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Any.Instance<List<BillingEntry>>());
-
-            // Act
-            await _billingService.ProcessOffersBillingEntriesAsync();
-
-            // Assert
-            _mockOfferService.Verify(x => x.GetOffersAsync(), Times.Once);
-            _mockBillingRepository.Verify(x => x.GetBillingsAsync(It.IsAny<string>(), GetBillingType.ByOfferId), Times.Exactly(offers.Count));
-            _mockAllegroClient.Verify(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>()), Times.Never);
-            _mockBillingRepository.Verify(x => x.SaveBillingEntriesAsync(It.IsAny<List<BillingEntry>>()), Times.Never);
         }
 
         [Test]
@@ -95,35 +75,14 @@ namespace MilitaryConsoleAppTests.Services
             _mockBillingRepository.Setup(x => x.GetBillingsAsync(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Enumerable.Empty<BillingEntry>());
             _mockAllegroClient.Setup(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Any.Instance<List<BillingEntry>>());
 
-
             // Act
             await _billingService.ProcessOrdersBillingEntriesAsync();
 
             // Assert
             _mockOrderService.Verify(x => x.GetOrdersAsync(), Times.Once);
             _mockBillingRepository.Verify(x => x.GetBillingsAsync(It.IsAny<string>(), GetBillingType.ByOrderId), Times.Exactly(orders.Count));
-            _mockBillingRepository.Verify(x => x.SaveBillingEntriesAsync(It.IsAny<List<BillingEntry>>()), Times.AtLeastOnce);
+            _mockBillingRepository.Verify(x => x.SaveBillingEntryAsync(It.IsAny<BillingEntry>()), Times.AtLeastOnce);
             _mockAllegroClient.Verify(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>()), Times.AtLeastOnce);
-        }
-
-        [Test]
-        public async Task ProcessOrdersBillingEntriesAsync_ShouldProcessOrdersCorrectly_AndDontSaveBillings()
-        {
-            // Arrange
-            var orders = Any.Instance<List<Order>>();
-            _mockOrderService.Setup(x => x.GetOrdersAsync()).ReturnsAsync(orders);
-            _mockBillingRepository.Setup(x => x.GetBillingsAsync(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Any.Instance<IEnumerable<BillingEntry>>());
-            _mockAllegroClient.Setup(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>())).ReturnsAsync(Any.Instance<List<BillingEntry>>());
-
-
-            // Act
-            await _billingService.ProcessOrdersBillingEntriesAsync();
-
-            // Assert
-            _mockOrderService.Verify(x => x.GetOrdersAsync(), Times.Once);
-            _mockBillingRepository.Verify(x => x.GetBillingsAsync(It.IsAny<string>(), GetBillingType.ByOrderId), Times.Exactly(orders.Count));
-            _mockAllegroClient.Verify(x => x.GetBillingEntries(It.IsAny<string>(), It.IsAny<GetBillingType>()), Times.Never);
-            _mockBillingRepository.Verify(x => x.SaveBillingEntriesAsync(It.IsAny<List<BillingEntry>>()), Times.Never);
         }
     }
 }

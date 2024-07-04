@@ -18,8 +18,6 @@ namespace MilitaryProductsFlaggingSystem.Application.Services
         private readonly Supplier _supplier = Supplier.Supplier3;
         private readonly IFinalProductConverter<Produkt> _finalProductConverter;
 
-
-
         public Supplier3Service(IFileRepository<Produkt> fileRepository, IFlaggedItemsRepository flaggedItemsRepository)
         {
             _fileRepository = fileRepository;

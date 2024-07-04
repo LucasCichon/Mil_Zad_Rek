@@ -20,7 +20,7 @@ namespace MilitarySuplierFilesConsoleApp.Models
 
         public class Builder()
         {
-            private string _id;
+            private readonly string _id;
             private string _name;
             private List<Description> _descriptions = new List<Description>();
             private List<string> _imgUrl = new List<string>();

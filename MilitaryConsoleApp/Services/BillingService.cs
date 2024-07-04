@@ -1,12 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using MilitaryConsoleApp.Configuration;
-using MilitaryConsoleApp.ErrorHandling;
-using MilitaryConsoleApp.Models;
-using MilitaryConsoleApp.Repositories;
-using System.Net.Http.Headers;
-using Newtonsoft.Json;
+﻿using MilitaryConsoleApp.Repositories;
 using MilitaryConsoleApp.Common;
 using MilitaryConsoleApp.Clients;
+using Serilog;
 
 namespace MilitaryConsoleApp.Services
 {
@@ -26,12 +21,12 @@ namespace MilitaryConsoleApp.Services
         }
 
         public async Task ProcessOffersBillingEntriesAsync()
-        {          
+        {
             var offers = await _offerService.GetOffersAsync();
             Console.WriteLine($"There are {offers.Count()} offers to process");
             foreach (var offer in offers)
             {
-                await SaveBillings(offer.Id.ToString(), GetBillingType.ByOfferId);
+                await SaveBillings(offer.OfferId.ToString(), GetBillingType.ByOfferId);
             }
         }
 
@@ -41,18 +36,27 @@ namespace MilitaryConsoleApp.Services
             Console.WriteLine($"There are {orders.Count()} orders to process");
             foreach (var order in orders)
             {
-                await SaveBillings(order.Id.ToString(), GetBillingType.ByOrderId);
+                await SaveBillings(order.OrderId.ToString(), GetBillingType.ByOrderId);
             }          
         }
 
-        private async Task SaveBillings(string id, GetBillingType type)
-        {
-            var billings = await _billingRepository.GetBillingsAsync(id, type);
-            if (!billings.Any())
+        private async Task SaveBillings(string orderId, GetBillingType type)
+        {            
+            var billings = await _billingRepository.GetBillingsAsync(orderId, type);
+            var billingEntries = await _allegroClient.GetBillingEntries(orderId, type);
+
+            foreach(var billingEntry in billingEntries)
             {
-                var billingEntries = await _allegroClient.GetBillingEntries(id, type);
-                await _billingRepository.SaveBillingEntriesAsync(billingEntries);
-            }     
+                if(!billings.Any(b => b.BillingId == billingEntry.BillingId))
+                {
+                    await _billingRepository.SaveBillingEntryAsync(billingEntry);
+                    Log.Information($"Billing ({billingEntry.BillingId}) saved.");
+                }
+                else
+                {
+                    Log.Information($"Billing ({billingEntry.BillingId}) already in Database.");
+                }
+            }      
         }
     }
 }

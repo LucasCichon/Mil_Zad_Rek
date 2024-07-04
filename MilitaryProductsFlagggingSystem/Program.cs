@@ -1,9 +1,6 @@
-using MilitaryProductsFlaggingSystem.Application.Converters;
-using MilitaryProductsFlaggingSystem.Application.Converters.Interfaces;
-using MilitaryProductsFlaggingSystem.Application.Interfaces;
 using MilitaryProductsFlaggingSystem.Application.Services;
 using MilitaryProductsFlaggingSystem.Domain.Interfaces;
-
+using MilitaryProductsFlaggingSystem.Infrastructure.Converters;
 using MilitaryProductsFlaggingSystem.Infrastructure.Repositories;
 
 namespace MilitaryProductsFlagggingSystem
@@ -17,6 +14,7 @@ namespace MilitaryProductsFlagggingSystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddTransient<IProductsConverter, ProductsConverter>();
             builder.Services.AddTransient<IFileRepository<MilitaryProductsFlaggingSystem.Domain.Model.Dtos.Supplier1.Offer>, Supplier1Repository>();
             builder.Services.AddTransient<IFileRepository<MilitaryProductsFlaggingSystem.Domain.Model.Dtos.Supplier2.Product>, Supplier2Repository>();
             builder.Services.AddTransient<IFileRepository<MilitaryProductsFlaggingSystem.Domain.Model.Dtos.Supplier3.Produkt>, Supplier3Repository>();

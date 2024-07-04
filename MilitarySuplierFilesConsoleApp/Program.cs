@@ -33,7 +33,7 @@ namespace MilitarySuplierFilesConsoleApp
                 var productsFromSupplier2 = suplier2Sevice.GetFinalProducts(Directory.GetCurrentDirectory() + "\\dostawca2plik1.xml", Directory.GetCurrentDirectory() + "\\dostawca2plik2.xml");
 
                 ISupplierService suplier3Sevice = SupplierServiceFactory.GetService(SupplierType.supplier3);
-                var productsFromSupplier3 = suplier3Sevice.GetFinalProducts(Directory.GetCurrentDirectory() + "\\dostawca3plik1.xml", null);
+                var productsFromSupplier3 = suplier3Sevice.GetFinalProducts(Directory.GetCurrentDirectory() + "\\dostawca3plik1.xml");
 
 
                 var allProducts = new List<FinalProduct>();

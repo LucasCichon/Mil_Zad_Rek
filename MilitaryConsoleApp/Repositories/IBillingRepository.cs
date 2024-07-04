@@ -5,7 +5,7 @@ namespace MilitaryConsoleApp.Repositories
 {
     public interface IBillingRepository
     {
-        Task SaveBillingEntriesAsync(IEnumerable<BillingEntry> billingEntries);
         Task<IEnumerable<BillingEntry>> GetBillingsAsync(string id, GetBillingType type);
+        Task SaveBillingEntryAsync(BillingEntry billingEntry);
     }
 }
