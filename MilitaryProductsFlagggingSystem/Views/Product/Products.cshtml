@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MilitaryProductsFlaggingSystem.Application.ViewModels.ProductVm>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Produkty</h1>
+
+
+<table class="table" align="center">
+    <thead>
+        <tr>
+            <th>
+                Nr.
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stockQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isFlagged)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImgUrls)
+            </th>
+        </tr>
+    </thead>
+    <tbody>@{
+
+            var number = 1;
+        }
+@foreach (var item in Model) {
+            <tr>
+                @Html.HiddenFor(modelItem => item.Id)
+            <td>
+                @number
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stockQuantity)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => item.isFlagged)
+            </td>
+            <td>
+                @{
+                    var url = item.ImgUrls.FirstOrDefault();
+                    <img src="@url"  height="50" width="50" />
+                    }
+                </td>
+        </tr>
+            number++;
+        
+}
+    </tbody>
+</table>
+    <div>
+        @Html.ActionLink("Zapisz", "Index", "Home", new { }, new { @class = "btn btn-primary" })
+    </div>
